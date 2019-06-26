@@ -4,6 +4,8 @@ from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
+from collections import OrderedDict
+
 
 from bs4 import BeautifulSoup
 
@@ -28,6 +30,20 @@ def populate_temp_car_list(soup):
         name = name_containers[i].h4.text  
         temp_car_list[i] = name.split()
         i+=1
+
+    # I have the price containers, there's an issue of duplication and list intermingling when I try to format it
+    prices = soup.findAll("li",{"class":"vehicle-price"})  
+    for i in range(len(prices)):
+        prices[i] = prices[i].text.strip()
+    # some items in list contain more than one price, need to separate those out
+    prices = [y for x in prices for y in x.split()]
+
+    # next, need to delete duplicates (every other)
+    prices = list(OrderedDict.fromkeys(prices))
+    # this results in a length of 17, not 15
+    # will need to inspect the html so see where the prices are getting messed up
+    
+    
     mileages = soup.findAll("div",{"class":"specs-miles"})
     for i in range(len(mileages)): 
         mileages[i] = mileages[i].text.split()
@@ -53,13 +69,9 @@ def go_to_next_page(driver):
 
 url = 'https://www.carsforsale.com/Search?Make=Ford&Model=Edge&Conditions=used&PageNumber=1&OrderBy=Relevance&OrderDirection=Desc'
 
-def put_it_together():
-    driver = get_site(url)
-    soup = make_soup(driver)
-    car_list = init_car_list()
-    temp_car_list = populate_temp_car_list(soup)
-    car_list = append_to_car_list(temp_car_list,car_list)
-    go_to_next_page(driver)
-    driver.close()
+soup = make_soup(driver)
+temp_car_list = populate_temp_car_list(soup)
+car_list = append_to_car_list(temp_car_list,car_list)
+go_to_next_page(driver)
 
-put_it_together()
+
