@@ -113,6 +113,10 @@ df = df.apply(lambda x: x.str.strip())
 # save to csv
 df.to_csv('df_cars.csv')
 
+# do some data cleaning
+df['price'] = pd.to_numeric(df['price'])
+
+
 
 # save to csv file
 headers = 'year, make, model, trim, mileage, AWD/FWD, price\n'
