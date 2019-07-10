@@ -77,17 +77,22 @@ def go_to_next_page(driver):
         element.click()
         return True
     except:
-        print('an error occurred when clicking to the next page')
+        print('all done!')
         return False
 
-# all ford edges
-# url = 'https://www.carsforsale.com/Search?Make=Ford&Model=Edge&Conditions=used&PageNumber=1&OrderBy=Relevance&OrderDirection=Desc'
+# all used fords
+# url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=&BodyStyle=&SubBodyStyle=&MinModelYear=&MaxModelYear=&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 
+# all ford edges
+url = 'https://www.carsforsale.com/Search?Make=Ford&Model=Edge&Conditions=used&PageNumber=1&OrderBy=Relevance&OrderDirection=Desc'
+
+# ford edges near 22903 
+url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=&MaxModelYear=&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=100&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 # 2015 ford edges
 # url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=2015&MaxModelYear=2015&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=&ZipCode=&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 
 # 2015 ford edges near 22903
-url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=2015&MaxModelYear=2015&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=100&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
+# url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=2015&MaxModelYear=2015&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=100&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 
 def make_complete_list(url):
     driver = get_site(url)
@@ -104,6 +109,13 @@ def make_complete_list(url):
 
 
 car_list = make_complete_list(url)
+for car in car_list:
+    if (len(car) > 7):
+        print('this car is this long (over 7 is bad): ' + str(len(car)))
+        print('we are removing this car: ' + str(car))
+        print('before we remove it, the list is this long: ' + str(len(car)))
+        car_list.remove(car)
+        print('after we remove it, the list is this long: ' + str(len(car)))
 
 # make a pandas dataframe using the car list
 from pandas import DataFrame
@@ -111,17 +123,17 @@ df = DataFrame.from_records(car_list, columns=['year', 'make', 'model', 'trim', 
 # strip whitespace
 df = df.apply(lambda x: x.str.strip())
 # save to csv
-df.to_csv('df_cars.csv')
+df.to_csv('df_ford_used.csv')
 
 # do some data cleaning
-df['price'] = pd.to_numeric(df['price'])
+# df['price'] = pd.to_numeric(df['price'])
 
 
 
 # save to csv file
-headers = 'year, make, model, trim, mileage, AWD/FWD, price\n'
-with open('cars.csv', 'w') as f:
+"""headers = 'year, make, model, trim, mileage, AWD/FWD, price\n'
+with open('ford_used.csv', 'w') as f:
     f.write(headers)
     for car in car_list:
         f.write(str(car).strip('[]').replace("'",''))
-        f.write('\n')
+        f.write('\n')"""
