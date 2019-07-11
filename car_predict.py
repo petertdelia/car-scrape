@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('df_cars.csv', index_col=0)
 
@@ -16,3 +19,14 @@ df = df.dropna()
 df = df.drop(columns={'year','make','model'})
 
 df = df.reset_index(drop=True)
+
+df = df[(np.abs(stats.zscore(df['price'])) < 3)]
+
+df_SE = df[df['trim'] == 'SE']
+df_SEL = df[df['trim'] == 'SEL']
+df_titanium = df[df['trim'] == 'Titanium']
+df_sport = df[df['trim'] == 'Sport']
+
+plt.plot(df_SEL['mileage'],df_SEL['price'],'ro',df_titanium['mileage'],df_titanium['price'],'gs',df_SE['mileage'],df_SE['price'],'b^',df_sport['mileage'],df_sport['price'],'cv')
+plt.show()
+df = df[(np.abs(stats.zscore(df['price'])) < 2.5)]
