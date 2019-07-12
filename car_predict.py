@@ -4,7 +4,7 @@ from scipy import stats
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('df_cars.csv', index_col=0)
-
+df['price'] = pd.to_numeric(df['price'])
 # drop indexes with missing number values
 df = df.dropna()
 
@@ -20,7 +20,7 @@ df = df.drop(columns={'year','make','model'})
 
 df = df.reset_index(drop=True)
 
-df = df[(np.abs(stats.zscore(df['price'])) < 3)]
+df = df[(np.abs(stats.zscore(df['price'])) < 2.5)]
 
 df_SE = df[df['trim'] == 'SE']
 df_SEL = df[df['trim'] == 'SEL']
