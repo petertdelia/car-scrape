@@ -63,7 +63,6 @@ def populate_temp_car_list(soup):
         prices.append(price)
     for i in range(len(prices)):
         temp_car_list[i].append(prices[i])
-    print(temp_car_list[0])
     return temp_car_list
 
 def append_to_car_list(temp_car_list,car_list):
@@ -84,10 +83,10 @@ def go_to_next_page(driver):
 # url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=&BodyStyle=&SubBodyStyle=&MinModelYear=&MaxModelYear=&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 
 # all ford edges
-# url = 'https://www.carsforsale.com/Search?Make=Ford&Model=Edge&Conditions=used&PageNumber=1&OrderBy=Relevance&OrderDirection=Desc'
+url = 'https://www.carsforsale.com/Search?Make=Ford&Model=Edge&Conditions=used&PageNumber=1&OrderBy=Relevance&OrderDirection=Desc'
 
 # ford edges near 22903 
-url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=&MaxModelYear=&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=100&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
+# url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=&MaxModelYear=&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=100&ZipCode=22903&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 # 2015 ford edges
 # url = 'https://www.carsforsale.com/Search?SearchTypeID=2&Make=Ford&Model=Edge&BodyStyle=&SubBodyStyle=&MinModelYear=2015&MaxModelYear=2015&MinPrice=&MaxPrice=&FromEstimatedMonthlyPayment=&ToEstimatedMonthlyPayment=&MaxMileage=&FromFuelEconomy=&Radius=&ZipCode=&State=&City=&FullStateName=&Latitude=&Longitude=&Conditions=Used&Conditions=Manufacturer+Certified&Conditions=Repairable&HideRepairable=&FilterImageless=&PricedVehiclesOnly=&OrderBy=Relevance&OrderDirection=desc&PageResultSize=15&PageNumber=1&TotalRecords=&FromDate=&ToDate=&DaysListed=&SourceId=&SourceExternalUserID='
 
@@ -110,6 +109,7 @@ def make_complete_list(url):
 
 
 car_list = make_complete_list(url)
+
 for car in car_list:
     if len(car) > 7:
         car_list.remove(car)
