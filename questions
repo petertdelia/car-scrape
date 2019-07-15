@@ -1,1 +1,8 @@
 I keep copying and pasting functions into a python session. Is there a better way to accomplish that?
+
+What is the difference between sqlite file extension and db file extension? Flask uses sqlite and the sqlite documentation uses db.
+
+next projects:
+    pagination
+    a link to each car page
+    another view for the data manipulation

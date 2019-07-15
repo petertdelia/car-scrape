@@ -4,6 +4,8 @@ from scipy import stats
 import matplotlib.pyplot as plt
 
 df = pd.read_csv('df_ford_used.csv', index_col=0)
+# df = pd.read_csv('ford_edge.csv',names=['year','make','model','trim','drive','mileage','price'],index_col=False)
+
 df['price'] = pd.to_numeric(df['price'])
 # drop indexes with missing number values
 df = df.dropna()
