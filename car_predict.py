@@ -18,7 +18,7 @@ df['mileage'] = pd.to_numeric(df['mileage'])
 df = df.dropna()
 
 # drop irrelevant columns (when years, makes, and models are all equivalent)
-df = df.drop(columns={'year','make','model'})
+df = df.drop(columns={'make','model'})
 
 df = df.reset_index(drop=True)
 
