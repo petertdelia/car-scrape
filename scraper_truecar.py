@@ -41,7 +41,7 @@ def populate_temp_car_list(soup):
 
 def extend_car_list(car_list,temp_car_list):
     car_list.extend(temp_car_list)
-    print(len(car_list))
+    print(len(car_list), end = ' ')
     return car_list
 
 def go_to_next_page(driver):
@@ -84,22 +84,35 @@ def create_csv(csv_name, car_list):
         for car in car_list:
             carwriter.writerow(car)
 
-def create_sql(sql_name, car_list):
-    conn = sqlite3.connect('cars.sqlite')
+def init_sql(sql_name):
+    conn = sqlite3.connect(sql_name)
     c = conn.cursor()
-    c.execute('''CREATE TABLE cars
+    try:
+        c.execute('''CREATE TABLE cars
                 (Year integer, Make text, Model text, Trim text, Drive text, Mileage integer, Price Integer)''')
+        conn.commit()
+    except:
+        pass
+    
+
+def add_to_sql(sql_name, car_list):
+    conn = sqlite3.connect(sql_name)
+    c = conn.cursor()
     c.executemany('INSERT INTO cars VALUES (?,?,?,?,?,?,?)', car_list)            
     conn.commit()
-    
-url = 'https://www.truecar.com/used-cars-for-sale/listings/ford/edge/location-charlottesville-va/?searchRadius=500'
 
-car_list = make_complete_list(url)
-car_list = standard_len(car_list)
+sql_name = 'cars.sqlite'
+init_sql(sql_name)
+
+cars = ['edge', 'escape', 'explorer']
+for car in cars:
+    url = 'https://www.truecar.com/used-cars-for-sale/listings/ford/' + car + '/location-charlottesville-va/?searchRadius=5000'
+    car_list = make_complete_list(url)
+    car_list = standard_len(car_list)
+    csv_name = car + '.csv'
+    create_csv(csv_name, car_list)
+    add_to_sql(sql_name, car_list)
 
 
-csv_name = 'test.csv'
-sql_name = 'test.sqlite'
 
-create_csv(csv_name, car_list)
-create_sql(sql_name, car_list)
+
